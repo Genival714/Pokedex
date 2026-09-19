@@ -1,254 +1,351 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex Completa</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#07080c">
+    <title>Pokédex</title>
+    <meta name="description" content="Pokédex interativa com estatísticas, habilidades, evoluções, movimentos, formas alternativas, explorador com filtros e montagem de time.">
     <link rel="icon" href="img/pokeball-icon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://pokeapi.co">
+    <link rel="preconnect" href="https://raw.githubusercontent.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Cabeçalho -->
-        <header class="header">
-            <h1>Pokédex Completa</h1>
-            <p>Pesquise por nome ou número para encontrar informações detalhadas sobre qualquer Pokémon.</p>
-        </header>
-        
-        <!-- Formulário de busca -->
-        <div class="search-container">
-            <form id="search-form">
-                <input type="text" id="search-input" placeholder="Digite o nome ou ID do Pokémon..." autocomplete="off">
-                <button type="submit" id="search-button">Buscar</button>
+
+    <!-- Sprite de ícones SVG -->
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+        <symbol id="i-swords" viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/><path d="M9.5 6.5 3 13v3"/><path d="m5 21 4-4"/></symbol>
+        <symbol id="i-share" viewBox="0 0 24 24"><path d="M10 14a3.5 3.5 0 0 0 5 0l4-4a3.5 3.5 0 0 0-5-5l-.5.5"/><path d="M14 10a3.5 3.5 0 0 0-5 0l-4 4a3.5 3.5 0 0 0 5 5l.5-.5"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+        <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+        <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+        <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="4.5" width="4" height="15" rx="1" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14" /><path d="M18 5 8 12l10 7z" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14" /><path d="M6 5l10 7-10 7z" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></symbol>
+        <symbol id="i-vol" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></symbol>
+        <symbol id="i-vol-low" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/></symbol>
+        <symbol id="i-vol-off" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="m16 9 5 6M21 9l-5 6"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+        <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+        <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></symbol>
+        <symbol id="i-physical" viewBox="0 0 24 24"><path d="M8 4v8"/><path d="M12 3v9"/><path d="M16 5v7"/><path d="M4 11.5c0 5 3 9 8 9s8-4 8-9"/><path d="M4 11.5V9"/></symbol>
+        <symbol id="i-special" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.2 2.2M16.2 16.2l2.2 2.2M5.6 18.4l2.2-2.2M16.2 7.8l2.2-2.2"/></symbol>
+        <symbol id="i-status" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18" cy="12" r="1.8"/></symbol>
+        <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></symbol>
+        <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M5 7h14"/><path d="m5 7-3 7a3 3 0 0 0 6 0z"/><path d="m19 7-3 7a3 3 0 0 0 6 0z"/></symbol>
+        <symbol id="i-egg" viewBox="0 0 24 24"><path d="M12 3c-3.5 0-7 5.5-7 10a7 7 0 0 0 14 0c0-4.5-3.5-10-7-10z"/></symbol>
+        <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3 14 9l6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
+        <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 13v6H5V6h6"/></symbol>
+        <symbol id="i-pokeball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></symbol>
+        <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></symbol>
+        <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 10v4h3l4 3V7L7 10z"/><path d="M14 9.5a3.5 3.5 0 0 1 0 5"/><path d="M16.5 7a7 7 0 0 1 0 10"/><path d="M19 4.5a10.5 10.5 0 0 1 0 15"/></symbol>
+        <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+        <symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5A5 5 0 0 1 22 19"/></symbol>
+    </svg>
+
+    <!-- Barra de progresso (carregamento) -->
+    <div id="loading" class="progress" role="progressbar" aria-label="Carregando"><span class="progress__bar"></span></div>
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <a class="brand" href="./" data-nav="pokemon" aria-label="Pokédex — início">
+            <span class="brand__ball" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-pokeball"/></svg></span>
+            <span class="brand__word">POKÉDEX</span>
+        </a>
+
+        <div class="search" id="search-container">
+            <form id="search-form" class="search__form" role="search" autocomplete="off">
+                <svg class="search__icon" aria-hidden="true"><use href="#i-search"/></svg>
+                <input type="text" id="search-input" class="search__input"
+                       placeholder="Buscar por nome ou número…"
+                       aria-label="Buscar Pokémon" aria-autocomplete="list"
+                       aria-controls="search-suggestions-container" autocomplete="off" spellcheck="false">
+                <kbd class="search__kbd" aria-hidden="true">/</kbd>
+                <button type="submit" id="search-button" class="search__submit" aria-label="Buscar">
+                    <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                </button>
             </form>
-            <!-- Container para sugestões de pesquisa -->
-            <div id="search-suggestions-container" class="suggestions-container"></div>
-            <!-- Container para histórico de pesquisa -->
-            <div id="search-history-container"></div>
+            <div class="search__dropdown" id="search-dropdown">
+                <div id="search-suggestions-container" class="suggestions" role="listbox" aria-label="Sugestões"></div>
+                <div id="search-history-container" class="history"></div>
+            </div>
         </div>
-        
-        <!-- Indicador de carregamento -->
-        <div id="loading">
-            <div class="spinner"></div>
-        </div>
-        
-        <!-- Mensagem de erro -->
-        <div id="error-message"></div>
-        
-        <!-- Conteúdo principal - Card do Pokémon -->
-        <div class="pokemon-card">
-            <!-- Cabeçalho do card com nome, ID e tipos -->
-            <div class="pokemon-header">
-                <div class="pokemon-name-container">
-                    <h2 id="pokemon-name" class="pokemon-name">Carregando...</h2>
-                    <span id="pokemon-id" class="pokemon-id">#000</span>
-                </div>
-                <div id="pokemon-types" class="pokemon-types">
-                    <!-- Tipos serão adicionados aqui via JavaScript -->
-                </div>
-            </div>
-            
-            <!-- Área de imagens -->
-            <div class="pokemon-images">
-                <div class="main-image-container">
-                    <img id="main-pokemon-image" src="img/placeholder.png" alt="Carregando...">
-                </div>
-                <div class="sprite-variants">
-                    <div class="sprite-variant">
-                        <img id="pixel-art-image" src="img/placeholder-pixel.png" alt="Pixel Art">
-                        <p>Pixel Art</p>
-                    </div>
-                    <div class="sprite-variant">
-                        <img id="model-3d" src="img/placeholder-3d.png" alt="Modelo 3D">
-                        <p>Modelo 3D</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Botões de ação -->
-            <div class="action-buttons">
-                <button id="compare-button" class="action-button">
-                    <span class="action-icon">⚔️</span> Comparar
+
+        <nav class="topbar__actions" aria-label="Navegação">
+            <a class="icon-btn" href="#explorar" data-nav="explorer" aria-label="Explorar todos os Pokémon" title="Explorar">
+                <svg aria-hidden="true"><use href="#i-grid"/></svg>
+            </a>
+            <a class="icon-btn" href="#time" data-nav="team" aria-label="Meu time" title="Meu time">
+                <svg aria-hidden="true"><use href="#i-team"/></svg>
+                <span id="team-count" class="icon-btn__badge" hidden>0</span>
+            </a>
+            <button id="favorites-toggle" class="icon-btn" aria-label="Abrir favoritos" aria-controls="favorites-menu" aria-expanded="false" title="Favoritos">
+                <svg aria-hidden="true"><use href="#i-star"/></svg>
+                <span id="favorites-count" class="icon-btn__badge" hidden>0</span>
+            </button>
+            <button id="theme-toggle" class="icon-btn" aria-label="Alternar tema" aria-pressed="true" title="Tema">
+                <svg class="icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+                <svg class="icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+            </button>
+            <button id="music-toggle" class="icon-btn" aria-label="Mostrar player de música" title="Música">
+                <svg aria-hidden="true"><use href="#i-music"/></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mensagem de erro -->
+    <div id="error-message" class="banner banner--error" role="alert" hidden></div>
+
+    <main class="page" id="app">
+
+        <!-- ===================== VIEW: POKÉMON ===================== -->
+        <div id="view-pokemon" data-view="pokemon" class="view">
+
+            <section class="hero pokemon-card" aria-labelledby="pokemon-name">
+                <button class="hero__nav hero__nav--prev" id="prev-pokemon" aria-label="Pokémon anterior">
+                    <svg aria-hidden="true"><use href="#i-chev-left"/></svg>
                 </button>
-                <button id="share-button" class="action-button">
-                    <span class="action-icon">🔗</span> Compartilhar
+                <button class="hero__nav hero__nav--next" id="next-pokemon" aria-label="Próximo Pokémon">
+                    <svg aria-hidden="true"><use href="#i-chev-right"/></svg>
                 </button>
-            </div>
-            
-            <!-- Descrição da Pokédex -->
-            <div class="pokemon-description" id="pokemon-description">
-                Carregando descrição...
-            </div>
-            
-            <!-- Informações principais -->
-            <div class="pokemon-info">
-                <!-- Coluna da esquerda -->
-                <div class="info-column">
-                    <!-- Informações básicas -->
-                    <section class="info-section">
-                        <h3>Informações Básicas</h3>
-                        <div class="info-item">
-                            <span>Altura:</span> <span id="pokemon-height">?</span>
+
+                <div class="hero__info reveal" style="--i:0">
+                    <div class="hero__eyebrow">
+                        <span id="pokemon-id" class="hero__number pokemon-id">#000</span>
+                        <span id="pokemon-genus" class="hero__genus"></span>
+                    </div>
+                    <h1 id="pokemon-name" class="hero__name pokemon-name">Carregando…</h1>
+                    <div id="pokemon-types" class="hero__types pokemon-types" aria-label="Tipos"></div>
+
+                    <div class="tiles">
+                        <div class="tile">
+                            <svg class="tile__icon" aria-hidden="true"><use href="#i-ruler"/></svg>
+                            <span class="tile__label">Altura</span>
+                            <span class="tile__value" id="pokemon-height">—</span>
                         </div>
-                        <div class="info-item">
-                            <span>Peso:</span> <span id="pokemon-weight">?</span>
+                        <div class="tile">
+                            <svg class="tile__icon" aria-hidden="true"><use href="#i-scale"/></svg>
+                            <span class="tile__label">Peso</span>
+                            <span class="tile__value" id="pokemon-weight">—</span>
                         </div>
-                        <div class="info-item">
-                            <span>Grupo de Ovos:</span> <span id="egg-groups">?</span>
+                        <div class="tile tile--wide">
+                            <svg class="tile__icon" aria-hidden="true"><use href="#i-egg"/></svg>
+                            <span class="tile__label">Grupo de ovos</span>
+                            <span class="tile__value" id="egg-groups">—</span>
                         </div>
-                    </section>
-                    
-                    <!-- Estatísticas -->
-                    <section class="info-section">
-                        <h3>Estatísticas</h3>
-                        <div id="stats-container">
-                            <!-- Estatísticas serão adicionadas aqui via JavaScript -->
-                        </div>
-                    </section>
-                    
-                    <!-- Habilidades -->
-                    <section class="info-section">
-                        <h3>Habilidades</h3>
-                        <div id="abilities-container">
-                            <!-- Habilidades serão adicionadas aqui via JavaScript -->
-                        </div>
-                    </section>
+                    </div>
+
+                    <div class="hero__actions action-buttons">
+                        <button id="favorite-button" class="btn btn--ghost favorite-button" aria-pressed="false" title="Adicionar aos favoritos">
+                            <svg aria-hidden="true"><use href="#i-star"/></svg>
+                            <span class="favorite-label">Favoritar</span>
+                        </button>
+                        <button id="team-button" class="btn btn--ghost team-button" aria-pressed="false" title="Adicionar ao time">
+                            <svg aria-hidden="true"><use href="#i-pokeball"/></svg>
+                            <span class="team-label">Time</span>
+                        </button>
+                        <button id="compare-button" class="btn btn--ghost action-button">
+                            <svg aria-hidden="true"><use href="#i-swords"/></svg>
+                            <span>Comparar</span>
+                        </button>
+                        <button id="share-button" class="btn btn--ghost action-button">
+                            <svg aria-hidden="true"><use href="#i-share"/></svg>
+                            <span>Compartilhar</span>
+                        </button>
+                    </div>
                 </div>
-                
-                <!-- Coluna da direita -->
-                <div class="info-column">
-                    <!-- Cadeia Evolutiva -->
-                    <section class="info-section">
-                        <h3>Grade Evolutiva</h3>
-                        <div id="evolution-chain-container" class="evolution-chain-container">
-                            <!-- Cadeia evolutiva será adicionada aqui via JavaScript -->
+
+                <div class="hero__stage reveal" style="--i:1">
+                    <div class="stage" id="stage">
+                        <span class="stage__watermark" id="stage-watermark" aria-hidden="true">000</span>
+                        <div class="stage__halo" aria-hidden="true"></div>
+                        <svg class="stage__ring" viewBox="0 0 100 100" aria-hidden="true">
+                            <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="1.5 3"/>
+                        </svg>
+                        <svg class="stage__ring stage__ring--inner" viewBox="0 0 100 100" aria-hidden="true">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width=".4" stroke-dasharray="6 4"/>
+                        </svg>
+                        <div class="stage__art">
+                            <img id="main-pokemon-image" src="img/placeholder.png" alt="" decoding="async">
                         </div>
-                    </section>
-                    
-                    <!-- Sprites adicionais -->
-                    <section class="info-section">
-                        <h3>Sprites</h3>
-                        <div id="sprites-container" class="sprites-container">
-                            <!-- Sprites serão adicionados aqui via JavaScript -->
-                        </div>
-                    </section>
-                    
-                    <!-- Relações de dano -->
-                    <section class="info-section">
-                        <h3>Dano Recebido</h3>
-                        <div id="damage-relations-container">
-                            <!-- Relações de dano serão adicionadas aqui via JavaScript -->
-                        </div>
-                    </section>
+                        <div class="stage__shadow" aria-hidden="true"></div>
+                        <button type="button" id="cry-button" class="stage__cry" aria-label="Ouvir o grito" title="Ouvir o grito" hidden>
+                            <svg aria-hidden="true"><use href="#i-sound"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="variants sprite-variants" id="variants" role="group" aria-label="Variações de imagem">
+                        <button class="variant is-active" data-variant="art" type="button">
+                            <img id="variant-art" src="img/placeholder.png" alt="Artwork oficial">
+                            <span>Artwork</span>
+                        </button>
+                        <button class="variant" data-variant="pixel" type="button">
+                            <img id="pixel-art-image" src="img/placeholder-pixel.png" alt="Pixel art">
+                            <span>Pixel</span>
+                        </button>
+                        <button class="variant" data-variant="shiny" type="button">
+                            <img id="variant-shiny" src="img/placeholder-pixel.png" alt="Shiny">
+                            <span>Shiny</span>
+                        </button>
+                        <button class="variant" data-variant="home" type="button">
+                            <img id="model-3d" src="img/placeholder-3d.png" alt="Modelo 3D">
+                            <span>3D</span>
+                        </button>
+                        <button class="variant" data-variant="anim" type="button" hidden>
+                            <img id="variant-anim" src="img/placeholder-pixel.png" alt="Animado">
+                            <span>Anim.</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Abas para informações adicionais -->
-            <div class="tabs-container">
-                <div class="tabs">
-                    <button class="tab-button active" data-tab="moves">Movimentos</button>
-                    <button class="tab-button" data-tab="locations">Localizações</button>
-                    <button class="tab-button" data-tab="forms">Formas Alternativas</button>
+
+                <blockquote class="hero__quote reveal" style="--i:2">
+                    <p id="pokemon-description" class="pokemon-description">Carregando descrição…</p>
+                </blockquote>
+            </section>
+
+            <!-- ===================== BENTO ===================== -->
+            <section class="bento" aria-label="Detalhes do Pokémon">
+                <article class="panel panel--stats reveal info-section" style="--i:3">
+                    <header class="panel__head">
+                        <h2 class="panel__title">Estatísticas base</h2>
+                        <span class="panel__meta" id="stats-total"></span>
+                    </header>
+                    <div id="stats-container" class="stats"></div>
+                </article>
+
+                <article class="panel panel--damage reveal info-section" style="--i:4">
+                    <header class="panel__head">
+                        <h2 class="panel__title">Dano recebido</h2>
+                        <span class="panel__meta">Multiplicadores por tipo</span>
+                    </header>
+                    <div id="damage-relations-container" class="damage"></div>
+                </article>
+
+                <article class="panel panel--species reveal info-section" style="--i:5">
+                    <header class="panel__head">
+                        <h2 class="panel__title">Ficha</h2>
+                        <span class="panel__meta">Dados da espécie</span>
+                    </header>
+                    <div id="species-container" class="species"></div>
+                </article>
+
+                <article class="panel panel--evo reveal info-section" style="--i:6">
+                    <header class="panel__head">
+                        <h2 class="panel__title">Linha evolutiva</h2>
+                        <span class="panel__meta">Clique para navegar</span>
+                    </header>
+                    <div id="evolution-chain-container" class="evo-chain evolution-chain-container"></div>
+                </article>
+
+                <article class="panel panel--abilities reveal info-section" style="--i:7">
+                    <header class="panel__head">
+                        <h2 class="panel__title">Habilidades</h2>
+                    </header>
+                    <div id="abilities-container" class="abilities"></div>
+                </article>
+
+                <article class="panel panel--sprites reveal info-section" style="--i:8">
+                    <header class="panel__head">
+                        <h2 class="panel__title">Sprites</h2>
+                        <span class="panel__meta">Galeria</span>
+                    </header>
+                    <div id="sprites-container" class="sprites sprites-container"></div>
+                </article>
+            </section>
+
+            <!-- ===================== ABAS ===================== -->
+            <section class="panel panel--tabs reveal tabs-container" style="--i:9" aria-label="Mais informações">
+                <div class="segmented" role="tablist" aria-label="Seções">
+                    <span class="segmented__thumb" aria-hidden="true"></span>
+                    <button class="segmented__btn tab-button active" role="tab" data-tab="moves" id="tab-moves" aria-selected="true" aria-controls="moves-tab">Movimentos</button>
+                    <button class="segmented__btn tab-button" role="tab" data-tab="locations" id="tab-locations" aria-selected="false" aria-controls="locations-tab" tabindex="-1">Localizações</button>
+                    <button class="segmented__btn tab-button" role="tab" data-tab="forms" id="tab-forms" aria-selected="false" aria-controls="forms-tab" tabindex="-1">Formas</button>
                 </div>
-                
-                <!-- Conteúdo das abas -->
                 <div class="tab-content">
-                    <!-- Movimentos -->
-                    <div id="moves-tab" class="tab-panel active">
-                        <div id="moves-container">
-                            <!-- Movimentos serão adicionados aqui via JavaScript -->
-                        </div>
+                    <div id="moves-tab" class="tab-panel active" role="tabpanel" aria-labelledby="tab-moves">
+                        <div id="moves-container"></div>
                     </div>
-                    
-                    <!-- Localizações -->
-                    <div id="locations-tab" class="tab-panel">
-                        <div id="locations-container">
-                            <!-- Localizações serão adicionadas aqui via JavaScript -->
-                        </div>
+                    <div id="locations-tab" class="tab-panel" role="tabpanel" aria-labelledby="tab-locations" hidden>
+                        <div id="locations-container"></div>
                     </div>
-                    
-                    <!-- Formas alternativas -->
-                    <div id="forms-tab" class="tab-panel">
-                        <div id="alternative-forms-container" class="alternative-forms-container">
-                            <!-- Formas alternativas serão adicionadas aqui via JavaScript -->
-                        </div>
+                    <div id="forms-tab" class="tab-panel" role="tabpanel" aria-labelledby="tab-forms" hidden>
+                        <div id="alternative-forms-container" class="forms alternative-forms-container"></div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-        
-        <!-- Rodapé -->
+
+        <!-- ===================== VIEW: EXPLORAR ===================== -->
+        <div id="view-explorer" data-view="explorer" class="view explorer" hidden></div>
+
+        <!-- ===================== VIEW: TIME ===================== -->
+        <div id="view-team" data-view="team" class="view team" hidden></div>
+
         <footer class="footer">
-            <p>Desenvolvido usando a <a href="https://pokeapi.co/" target="_blank">PokéAPI</a>.</p>
-            <p>Pokémon e todos os nomes relacionados são propriedade de Nintendo/Creatures Inc./GAME FREAK Inc.</p>
+            <p>Dados via <a href="https://pokeapi.co/" target="_blank" rel="noopener">PokéAPI <svg aria-hidden="true"><use href="#i-external"/></svg></a></p>
+            <p>Pokémon e todos os nomes relacionados são propriedade de Nintendo / Creatures Inc. / GAME FREAK Inc.</p>
         </footer>
-    </div>
-    
-    <!-- Modal de comparação -->
-    <div id="compare-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Comparar Pokémon</h3>
-                <button class="close-modal">×</button>
+    </main>
+
+    <!-- ===================== DRAWER DE FAVORITOS ===================== -->
+    <div class="scrim" id="favorites-scrim" hidden></div>
+    <aside id="favorites-menu" class="drawer" aria-label="Favoritos" aria-hidden="true">
+        <div class="drawer__head favorites-menu-header">
+            <h3 class="drawer__title"><svg aria-hidden="true"><use href="#i-star"/></svg> Favoritos</h3>
+            <button class="icon-btn close-favorites" aria-label="Fechar favoritos"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+        </div>
+        <div class="drawer__list" id="favorites-list"></div>
+    </aside>
+
+    <!-- ===================== MODAL DE COMPARAÇÃO ===================== -->
+    <div id="compare-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="compare-title" aria-hidden="true">
+        <div class="modal__scrim" data-close-modal></div>
+        <div class="modal__content modal-content">
+            <div class="modal__head modal-header">
+                <h3 id="compare-title"><svg aria-hidden="true"><use href="#i-swords"/></svg> Comparar Pokémon</h3>
+                <button class="icon-btn close-modal" aria-label="Fechar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
             </div>
-            <div class="modal-body">
-                <div class="compare-search">
-                    <div class="compare-pokemon" id="compare-pokemon-1">
+            <div class="modal__body modal-body">
+                <div class="compare compare-search">
+                    <div class="compare__slot compare-pokemon" id="compare-pokemon-1">
                         <div class="compare-pokemon-content">
-                            <div class="compare-placeholder">
-                                <p>Pokémon atual</p>
-                            </div>
+                            <div class="compare__placeholder compare-placeholder"><p>Pokémon atual</p></div>
                         </div>
                     </div>
-                    <div class="compare-vs">VS</div>
-                    <div class="compare-pokemon" id="compare-pokemon-2">
-                        <div class="compare-search-container">
-                            <input type="text" id="compare-search-input" placeholder="Digite o nome ou ID do Pokémon...">
-                            <button id="compare-search-button">Buscar</button>
+                    <div class="compare__vs compare-vs" aria-hidden="true">VS</div>
+                    <div class="compare__slot compare-pokemon" id="compare-pokemon-2">
+                        <div class="compare__search compare-search-container">
+                            <svg aria-hidden="true"><use href="#i-search"/></svg>
+                            <input type="text" id="compare-search-input" placeholder="Nome ou número…" aria-label="Pokémon para comparar" autocomplete="off">
+                            <button id="compare-search-button" class="btn btn--accent" type="button">Buscar</button>
                         </div>
                         <div class="compare-pokemon-content">
-                            <div class="compare-placeholder">
-                                <p>Selecione um Pokémon para comparar</p>
-                            </div>
+                            <div class="compare__placeholder compare-placeholder"><p>Escolha um Pokémon para comparar</p></div>
                         </div>
                     </div>
                 </div>
-                <div class="comparison-results">
-                    <!-- Resultados da comparação serão adicionados aqui via JavaScript -->
-                </div>
+                <div id="compare-team-picks" class="compare__picks"></div>
+                <div class="comparison-results"></div>
             </div>
-            <div class="modal-footer">
-                <button id="close-comparison" class="btn">Fechar</button>
+            <div class="modal__foot modal-footer">
+                <button id="close-comparison" class="btn btn--ghost">Fechar</button>
             </div>
         </div>
     </div>
-    
-    <!-- Menu de favoritos -->
-    <div id="favorites-menu">
-        <div class="favorites-menu-header">
-            <h3>Favoritos</h3>
-            <button class="close-favorites">×</button>
-        </div>
-        <!-- Conteúdo do menu será adicionado via JavaScript -->
-    </div>
-    
-    <!-- Botões flutuantes -->
-    <button id="theme-toggle" class="theme-toggle">
-        <span class="toggle-icon">🌙</span>
-    </button>
-    
-    <button id="favorites-toggle" class="favorites-toggle">★</button>
-    
-    <!-- Scripts -->
-    <script src="js/security.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/audio.js"></script>
-    <script>
-        // Inicializar controles de áudio após o carregamento da página
-        document.addEventListener('DOMContentLoaded', function() {
-            setupAudioControls();
-        });
-    </script>
+
+    <script type="module" src="/src/main.ts"></script>
 </body>
-</html> 
+</html>

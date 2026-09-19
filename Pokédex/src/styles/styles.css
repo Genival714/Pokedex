@@ -826,53 +826,7 @@
     .stat--top .stat__value { color: var(--accent-text); }
     .stat__range { font: 400 10.5px var(--font-mono); color: var(--muted-2); display: block; letter-spacing: 0; text-transform: none; margin-top: 1px; }
 
-    /* ---------- Dano recebido ---------- */
-    .damage { display: grid; gap: 14px; }
-    .dmg-group { display: grid; gap: 8px; }
-    .dmg-group__title {
-        display: flex; align-items: center; gap: 8px;
-        font: 600 11px var(--font-mono); letter-spacing: .14em; text-transform: uppercase;
-        color: var(--muted);
-    }
-    .dmg-group__title::before {
-        content: ''; width: 8px; height: 8px; border-radius: 50%;
-        background: var(--kind-c, var(--muted));
-        box-shadow: 0 0 8px var(--kind-c, transparent);
-    }
-    .dmg-group[data-kind="weak"]   { --kind-c: #ff5c6c; }
-    .dmg-group[data-kind="resist"] { --kind-c: #5fc46b; }
-    .dmg-group[data-kind="immune"] { --kind-c: #94a8ff; }
-    .dmg-group[data-kind="normal"] { --kind-c: var(--muted); }
-    .dmg-list { display: flex; flex-wrap: wrap; gap: 6px; }
-    .dmg-chip {
-        --type-c: var(--type-normal);
-        display: inline-flex; align-items: center; gap: 8px;
-        height: 30px; padding: 0 6px 0 12px;
-        border-radius: var(--r-pill);
-        background: color-mix(in srgb, var(--type-c) 14%, transparent);
-        border: 1px solid color-mix(in srgb, var(--type-c) 40%, transparent);
-        color: color-mix(in srgb, var(--type-c) var(--chip-text-pct), var(--chip-text-mix));
-        font: 600 12px var(--font-body);
-        text-transform: capitalize;
-        transition: transform var(--dur-fast), box-shadow var(--dur-fast);
-    }
-    .dmg-chip:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -8px var(--type-c); }
-    .dmg-chip__x {
-        font: 600 11px var(--font-mono);
-        padding: 2px 7px;
-        border-radius: var(--r-pill);
-        background: color-mix(in srgb, var(--type-c) 28%, transparent);
-    }
-    .dmg-group details { display: contents; }
-    .dmg-group summary {
-        display: inline-flex; align-items: center; gap: 6px;
-        font: 600 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
-        color: var(--muted);
-        padding: 6px 0;
-    }
-    .dmg-group summary svg { width: 14px; height: 14px; transition: transform var(--dur); }
-    .dmg-group details[open] summary svg { transform: rotate(180deg); }
-    .dmg-group summary:hover { color: var(--text); }
+    /* ---------- Dano recebido: ver features.css ---------- */
 
     /* ---------- Cadeia evolutiva ---------- */
     .evo-chain {
@@ -1391,77 +1345,7 @@
     #toast[data-type="success"] svg { color: #5fc46b; }
     #toast[data-type="error"] svg { color: #ff5c6c; }
 
-    /* Player de música */
-    .player {
-        position: fixed;
-        left: 20px; bottom: 20px;
-        z-index: 85;
-        display: flex; align-items: center; gap: 4px;
-        height: 56px;
-        padding: 0 8px 0 6px;
-        border-radius: var(--r-pill);
-        background: var(--glass);
-        -webkit-backdrop-filter: blur(20px) saturate(1.4);
-        backdrop-filter: blur(20px) saturate(1.4);
-        border: 1px solid var(--border-strong);
-        box-shadow: var(--shadow-lg);
-        max-width: calc(100vw - 40px);
-        transition: transform var(--dur-slow) var(--ease-out), opacity var(--dur), width var(--dur-slow) var(--ease-out);
-        animation: fadeUp var(--dur-slow) var(--ease-out) both;
-    }
-    .player.is-hidden { transform: translateY(120px); opacity: 0; pointer-events: none; }
-    .player__disc {
-        width: 44px; height: 44px; flex-shrink: 0;
-        border-radius: 50%;
-        display: grid; place-items: center;
-        background: conic-gradient(from 0deg, var(--accent), var(--accent-2), var(--accent));
-        color: var(--on-accent);
-        box-shadow: var(--shadow-glow);
-        cursor: pointer;
-        transition: transform var(--dur-fast);
-    }
-    .player__disc::after { content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); }
-    .player__disc svg { position: relative; z-index: 1; width: 14px; height: 14px; }
-    .player.is-playing .player__disc { animation: spin 3s linear infinite; }
-    .player__disc:hover { transform: scale(1.06); }
-    .player__btn {
-        width: 36px; height: 36px;
-        display: grid; place-items: center;
-        border-radius: 50%;
-        color: var(--text-2);
-        transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
-    }
-    .player__btn svg { width: 18px; height: 18px; }
-    .player__btn:hover { background: var(--surface-2); color: var(--text); }
-    .player__btn:active { transform: scale(.92); }
-    .player__btn--main { width: 40px; height: 40px; background: var(--surface-2); }
-    .player__btn.needs-interaction, .player__btn.waiting-interaction { animation: pulseRing 1.6s var(--ease-in-out) infinite; color: var(--accent-text); }
-    .player__info { display: grid; gap: 2px; min-width: 0; width: 180px; margin-inline: 6px; }
-    .player__title { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; }
-    .player__title span { display: inline-block; padding-right: 32px; }
-    .player.is-playing .player__title span { animation: marquee 16s linear infinite; }
-    .player__time { font: 500 10.5px var(--font-mono); color: var(--muted); letter-spacing: .06em; }
-    .player__progress { position: relative; height: 4px; border-radius: 2px; background: var(--surface-3); cursor: pointer; overflow: hidden; }
-    .player__progress .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width .2s linear; }
-    .player__vol { display: flex; align-items: center; gap: 6px; margin-inline: 4px 2px; }
-    .player__vol svg { width: 16px; height: 16px; color: var(--muted); }
-    #volume-slider {
-        -webkit-appearance: none; appearance: none;
-        width: 76px; height: 4px;
-        border-radius: 2px;
-        background: linear-gradient(90deg, var(--accent) var(--vol, 50%), var(--surface-3) var(--vol, 50%));
-        outline: none;
-        cursor: pointer;
-    }
-    #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--text); border: 2px solid var(--accent); box-shadow: var(--shadow-sm); }
-    #volume-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--text); border: 2px solid var(--accent); }
-    .player__collapse { color: var(--muted); }
-
-    .player.is-min { padding: 0 6px; gap: 0; }
-    .player.is-min .player__btn:not(.player__collapse),
-    .player.is-min .player__info,
-    .player.is-min .player__vol { display: none; }
-    .player.is-min .player__collapse svg { transform: rotate(180deg); }
+    /* Player de música: ver player.css */
 }
 
 /* ------------------------------------------------------------------------
@@ -1594,21 +1478,19 @@
         .comparison-cards-container { grid-template-columns: 1fr; }
         .segmented { display: grid; grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); width: 100%; }
         .segmented__btn { padding-inline: 8px; font-size: 13px; }
-        .player__info { width: 120px; }
-        .player__vol { display: none; }
         .modal { padding: 10px; }
         .modal__body { padding: 16px; }
     }
 
     @media (max-width: 520px) {
         .tiles { grid-template-columns: 1fr 1fr; }
+        .variants { gap: 6px; }
+        .variant { padding: 4px 6px 5px; font-size: 9px; letter-spacing: .06em; }
+        .variant img { width: 38px; height: 38px; }
         .hero__actions .btn span { display: none; }
         .hero__actions .btn { width: 46px; padding: 0; }
         .stat { grid-template-columns: 84px 36px 1fr; }
         .stat__label { font-size: 10px; }
-        .player { left: 12px; bottom: 12px; }
-        .player__info { display: none; }
-        .player__btn:not(.player__btn--main):not(.player__collapse) { display: none; }
         .form-card__stats { grid-template-columns: repeat(3, 1fr); }
     }
 }

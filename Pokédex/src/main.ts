@@ -3,6 +3,7 @@
  */
 import './styles/styles.css';
 import './styles/features.css';
+import './styles/player.css';
 
 import { setupAudioControls } from './audio/player';
 import { spriteUrl } from './api/pokeapi';

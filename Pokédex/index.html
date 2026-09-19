@@ -53,6 +53,11 @@
         <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></symbol>
         <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 10v4h3l4 3V7L7 10z"/><path d="M14 9.5a3.5 3.5 0 0 1 0 5"/><path d="M16.5 7a7 7 0 0 1 0 10"/><path d="M19 4.5a10.5 10.5 0 0 1 0 15"/></symbol>
         <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+        <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h13"/><path d="m14 4 4 4-4 4"/><path d="M20 16H7"/><path d="m10 12-4 4 4 4"/></symbol>
+        <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.2" fill="currentColor"/><circle cx="15" cy="9" r="1.2" fill="currentColor"/><circle cx="9" cy="15" r="1.2" fill="currentColor"/><circle cx="15" cy="15" r="1.2" fill="currentColor"/></symbol>
+        <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3"/><path d="M17 6h3v2a3 3 0 0 1-3 3"/><path d="M12 14v4"/><path d="M8 20h8"/></symbol>
+        <symbol id="i-queue" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/><path d="m17 15 4 2.5-4 2.5z" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="i-expand" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
         <symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5A5 5 0 0 1 22 19"/></symbol>
     </svg>
 
@@ -318,27 +323,8 @@
                 <h3 id="compare-title"><svg aria-hidden="true"><use href="#i-swords"/></svg> Comparar Pokémon</h3>
                 <button class="icon-btn close-modal" aria-label="Fechar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
             </div>
-            <div class="modal__body modal-body">
-                <div class="compare compare-search">
-                    <div class="compare__slot compare-pokemon" id="compare-pokemon-1">
-                        <div class="compare-pokemon-content">
-                            <div class="compare__placeholder compare-placeholder"><p>Pokémon atual</p></div>
-                        </div>
-                    </div>
-                    <div class="compare__vs compare-vs" aria-hidden="true">VS</div>
-                    <div class="compare__slot compare-pokemon" id="compare-pokemon-2">
-                        <div class="compare__search compare-search-container">
-                            <svg aria-hidden="true"><use href="#i-search"/></svg>
-                            <input type="text" id="compare-search-input" placeholder="Nome ou número…" aria-label="Pokémon para comparar" autocomplete="off">
-                            <button id="compare-search-button" class="btn btn--accent" type="button">Buscar</button>
-                        </div>
-                        <div class="compare-pokemon-content">
-                            <div class="compare__placeholder compare-placeholder"><p>Escolha um Pokémon para comparar</p></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="compare-team-picks" class="compare__picks"></div>
-                <div class="comparison-results"></div>
+            <div class="modal__body modal-body" id="compare-body">
+                <!-- Preenchido por src/views/compare.ts -->
             </div>
             <div class="modal__foot modal-footer">
                 <button id="close-comparison" class="btn btn--ghost">Fechar</button>

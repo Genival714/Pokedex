@@ -77,7 +77,7 @@ Uma Pokédex completa que eu construí do zero, sem framework, com **Vite + Type
 ### Extras
 - **Favoritos** em painel lateral com remoção rápida e contador no topo.
 - **Tema claro/escuro** (padrão escuro), salvo localmente.
-- **Player de música** flutuante com 12 trilhas de batalha, minimizar, volume, modo aleatório e integração com **Media Session** (teclas de mídia do teclado/fone mostram o título da faixa).
+- **Player "Now Playing"** com 12 trilhas de batalha: cada faixa tem como capa o Pokémon do tema (Cynthia → Garchomp, Rayquaza, Giratina, Red → Pikachu…), disco girando com anel de progresso na cor do tipo, equalizador, fila de reprodução com capas e durações, barra de progresso arrastável, aleatório, mudo/volume, minimizar para um disco e **Media Session** (teclas de mídia e tela de bloqueio mostram capa e título). Três layouts: pílula no desktop/tablet, barra de largura total no celular em pé e versão compacta no celular deitado.
 - Avisos de online/offline; quando offline, Pokémon já visitados continuam abrindo pelo cache.
 - Voltar/avançar do navegador funcionam em todas as telas.
 

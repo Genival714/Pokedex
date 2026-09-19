@@ -102,15 +102,21 @@ npm run dev
 Outros comandos:
 
 ```bash
-npm run build      # typecheck + bundle em dist/
-npm run preview    # serve o conteúdo de dist/ pra conferir o build
+npm run build      # typecheck + bundle em ../docs/ (pasta publicada no GitHub Pages)
+npm run preview    # serve o build pra conferir antes de publicar
 npm run typecheck  # só o TypeScript, sem gerar nada
 ```
 
 > **Importante:** abrir o `index.html` com duplo clique não funciona — o projeto usa módulos ES e TypeScript, então precisa passar pelo Vite (`npm run dev`) ou pelo build.
 
-### Publicar
-O build usa `base: './'`, então a pasta `dist/` funciona em qualquer hospedagem estática (GitHub Pages, Netlify, Vercel, uma subpasta em qualquer servidor). É só subir o conteúdo de `dist/`.
+### Publicar (GitHub Pages)
+O `npm run build` gera o site pronto em **`docs/` na raiz do repositório** (configurado em `vite.config.ts` com `outDir: '../docs'` e `base: './'`). Pra publicar:
+
+1. `npm run build`
+2. Commit e push da pasta `docs/`
+3. No GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `/docs`**
+
+O site fica em `https://<usuário>.github.io/<repositório>/`. Como os caminhos são relativos, o mesmo build também funciona em Netlify, Vercel ou qualquer servidor estático — é só subir o conteúdo de `docs/`.
 
 ---
 

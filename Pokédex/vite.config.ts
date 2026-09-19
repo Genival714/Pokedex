@@ -5,7 +5,9 @@ export default defineConfig({
     base: './',
     build: {
         target: 'es2022',
-        outDir: 'dist',
+        // GitHub Pages publica a partir de /docs na raiz do repositório
+        outDir: '../docs',
+        emptyOutDir: true,
         assetsInlineLimit: 0,
     },
     server: {

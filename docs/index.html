@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://pokeapi.co">
     <link rel="preconnect" href="https://raw.githubusercontent.com">
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-La01cMMS.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Cjr0mKji.css">
+  <script type="module" crossorigin src="./assets/index-DTygpISM.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CLPY3wT-.css">
 </head>
 <body>
 
@@ -103,9 +103,17 @@
                 <svg aria-hidden="true"><use href="#i-star"/></svg>
                 <span id="favorites-count" class="icon-btn__badge" hidden>0</span>
             </button>
-            <button id="theme-toggle" class="icon-btn" aria-label="Alternar tema" aria-pressed="true" title="Tema">
-                <svg class="icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
-                <svg class="icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+            <button id="theme-toggle" class="theme-switch" role="switch" aria-checked="true" aria-label="Alternar tema (Solgaleo = claro, Lunala = escuro)" title="Tema: Lunala (escuro)">
+                <span class="theme-switch__track" aria-hidden="true">
+                    <span class="theme-switch__sky theme-switch__sky--day"></span>
+                    <span class="theme-switch__sky theme-switch__sky--night"></span>
+                    <svg class="theme-switch__icon theme-switch__icon--sun"><use href="#i-sun"/></svg>
+                    <svg class="theme-switch__icon theme-switch__icon--moon"><use href="#i-moon"/></svg>
+                    <span class="theme-switch__knob">
+                        <img class="theme-switch__mon theme-switch__mon--sol" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/791.png" alt="" width="40" height="40" decoding="async">
+                        <img class="theme-switch__mon theme-switch__mon--luna" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/792.png" alt="" width="40" height="40" decoding="async">
+                    </span>
+                </span>
             </button>
             <button id="music-toggle" class="icon-btn" aria-label="Mostrar player de música" title="Música">
                 <svg aria-hidden="true"><use href="#i-music"/></svg>

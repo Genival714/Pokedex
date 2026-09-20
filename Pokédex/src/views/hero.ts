@@ -109,8 +109,8 @@ export function initHero(): void {
         if (!btn) return;
         const img = $<HTMLImageElement>('img', btn);
         if (!img?.src) return;
-        const pixel = ['pixel', 'shiny', 'anim'].includes(btn.dataset.variant ?? '');
-        swapMainImage(img.src, pixel);
+        const v = btn.dataset.variant ?? 'art';
+        swapMainImage(img.src, v === 'anim' ? 'anim' : v === 'pixel' ? 'pixel' : v === 'shiny' && !img.src.includes('official-artwork') ? 'pixel' : 'art');
         $$('.variant', group).forEach((v) => v.classList.toggle('is-active', v === btn));
     });
 

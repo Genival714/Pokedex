@@ -66,16 +66,47 @@ export function initParallax(): void {
     window.addEventListener('pointerleave', () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(apply); });
 }
 
+/** Modo de exibição da imagem principal: artwork (suave), pixel art (nítido) ou animado (suave, tamanho natural ampliado). */
+export type StageMode = 'art' | 'pixel' | 'anim';
+
+function applyMode(img: HTMLImageElement, mode: StageMode): void {
+    img.classList.toggle('is-pixel', mode === 'pixel');
+    img.classList.toggle('is-anim', mode === 'anim');
+    if (mode !== 'anim') { img.style.removeProperty('height'); img.style.removeProperty('width'); }
+}
+
+/**
+ * Sprite animado (GIF de ~100px): ampliação em ESCALA INTEIRA com vizinho-mais-próximo.
+ * Cada pixel do sprite vira um bloco uniforme — sem borrão (interpolação) nem blocos
+ * irregulares (escala fracionária). Considera o devicePixelRatio para que a escala
+ * também seja inteira em pixels físicos (ex.: DPR 1.5 → 2x CSS = 3 px físicos).
+ */
+function fitAnimated(img: HTMLImageElement): void {
+    if (!img.classList.contains('is-anim') || !img.naturalHeight) return;
+    const stage = img.closest<HTMLElement>('.stage');
+    const limit = Math.min(300, (stage?.clientWidth ?? 440) * 0.62);
+    const maxK = Math.max(1, Math.floor(Math.min(limit / img.naturalHeight, limit / img.naturalWidth)));
+    const dpr = window.devicePixelRatio || 1;
+    let k = maxK;
+    // Prefere o maior k cujo produto com o DPR seja inteiro (blocos exatos na tela física)
+    for (let c = maxK; c >= 1; c--) {
+        if (Math.abs(c * dpr - Math.round(c * dpr)) < 0.01) { k = c; break; }
+    }
+    img.style.height = `${img.naturalHeight * k}px`;
+    img.style.width = `${img.naturalWidth * k}px`;
+}
+
 /** Troca a imagem principal do palco com crossfade. */
-export function swapMainImage(src: string, pixel = false): void {
+export function swapMainImage(src: string, mode: StageMode | boolean = 'art'): void {
     const main = $<HTMLImageElement>('#main-pokemon-image');
     if (!main) return;
-    if (main.getAttribute('src') === src) { main.classList.toggle('is-pixel', pixel); return; }
+    const m: StageMode = typeof mode === 'boolean' ? (mode ? 'pixel' : 'art') : mode;
+    if (main.getAttribute('src') === src) { applyMode(main, m); fitAnimated(main); return; }
     main.classList.add('is-swapping');
     const done = () => {
-        main.classList.toggle('is-pixel', pixel);
+        applyMode(main, m);
         main.src = src;
-        const show = () => main.classList.remove('is-swapping');
+        const show = () => { fitAnimated(main); main.classList.remove('is-swapping'); };
         if (main.complete) requestAnimationFrame(show);
         else {
             main.addEventListener('load', show, { once: true });

@@ -4,6 +4,7 @@
 import './styles/styles.css';
 import './styles/features.css';
 import './styles/player.css';
+import './styles/sky.css';
 
 import { setupAudioControls } from './audio/player';
 import { spriteUrl } from './api/pokeapi';
@@ -19,6 +20,7 @@ import { initParallax, reveal, withViewTransition } from './ui/motion';
 import { closeDrawer, initOverlays } from './ui/overlays';
 import { initSearch, recordHistory } from './ui/search';
 import { initShortcuts } from './ui/shortcuts';
+import { initSky } from './ui/sky';
 import { initSegmentedTabs } from './ui/tabs';
 import { showToast } from './ui/toast';
 import { renderAbilities } from './views/abilities';
@@ -160,6 +162,14 @@ function renderTeamCount(list: SavedPokemon[] = getTeam()): void {
     if (badge) { badge.textContent = String(list.length); badge.hidden = list.length === 0; }
 }
 
+function syncThemeSwitch(theme: 'dark' | 'light'): void {
+    const sw = $('#theme-toggle');
+    if (!sw) return;
+    sw.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
+    sw.title = theme === 'dark' ? 'Tema: Lunala (escuro) — clique para Solgaleo' : 'Tema: Solgaleo (claro) — clique para Lunala';
+    sw.classList.remove('is-flip'); void (sw as HTMLElement).offsetWidth; sw.classList.add('is-flip');
+}
+
 /* ------------------------------------------------------------------ */
 /* Ações do hero                                                       */
 /* ------------------------------------------------------------------ */
@@ -206,8 +216,8 @@ function initActions(): void {
     $('#next-pokemon')?.addEventListener('click', () => { const id = targetId(); if (id < MAX_SPECIES_ID) goPokemon(id + 1); });
 
     $('#theme-toggle')?.addEventListener('click', () => {
-        const t = store.toggleTheme();
-        $('#theme-toggle')?.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        // Crossfade da página inteira (View Transitions) ao trocar Solgaleo ⇄ Lunala
+        withViewTransition(() => syncThemeSwitch(store.toggleTheme()));
     });
 
     $$('[data-nav]').forEach((el) => el.addEventListener('click', (e) => {
@@ -224,7 +234,7 @@ function initActions(): void {
 /* ------------------------------------------------------------------ */
 function boot(): void {
     store.setTheme(getTheme());
-    $('#theme-toggle')?.setAttribute('aria-pressed', getTheme() === 'dark' ? 'true' : 'false');
+    syncThemeSwitch(getTheme());
 
     store.on('loading:start', () => document.body.classList.add('is-loading'));
     store.on('loading:end', () => document.body.classList.remove('is-loading'));
@@ -237,6 +247,7 @@ function boot(): void {
     store.on('favorites:change', (list) => renderFavorites(list));
     store.on('team:change', (list) => { renderTeamCount(list); if (store.current) updateActionState(store.current.id); });
 
+    initSky();
     initOverlays();
     initShortcuts();
     initSegmentedTabs($('#view-pokemon') ?? document);

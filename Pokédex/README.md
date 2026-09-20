@@ -42,7 +42,7 @@ Uma Pokédex completa que eu construí do zero, sem framework, com **Vite + Type
 
 ### Página do Pokémon
 - **Busca** por nome ou número com sugestões instantâneas (sprite + número), navegação por teclado e histórico das últimas 10 buscas.
-- **Palco** com artwork oficial, pixel art, shiny, modelo 3D (HOME) e sprite animado (Showdown), com parallax que segue o mouse e halo de luz na cor do tipo.
+- **Palco** com artwork oficial, pixel art (nítido, de propósito), shiny, modelo 3D (HOME) e sprite animado (Showdown, ampliado em escala inteira exata — 2×/3× — com pixels uniformes, considerando a densidade da tela), com parallax que segue o mouse e halo de luz na cor do tipo.
 - **Grito do Pokémon**: botão que toca o `cries.latest` da PokéAPI; enquanto toca, o halo pulsa e o artwork vibra.
 - **Ficha da espécie**: geração e região, habitat, taxa de captura (com % aproximada), proporção de gênero em barra, felicidade base, ritmo de crescimento, EXP base, EVs concedidos, cor/forma, passos para chocar e badges de Lendário / Mítico / Bebê.
 - **Estatísticas base** com barras animadas, count-up dos números, destaque do maior atributo e total.
@@ -76,7 +76,8 @@ Uma Pokédex completa que eu construí do zero, sem framework, com **Vite + Type
 
 ### Extras
 - **Favoritos** em painel lateral com remoção rápida e contador no topo.
-- **Tema claro/escuro** (padrão escuro), salvo localmente.
+- **Céu ambiente por tema**: no escuro, céu estrelado com 90 estrelas cintilando, estrelas cadentes e a **Lunala como lua** flutuando com halo; no claro, o **Solgaleo como sol** com raios girando e brilho que pulsa, banhando o topo da página — sempre por cima das cores de tipo do Pokémon, nunca no lugar delas.
+- **Tema claro/escuro** com interruptor **Solgaleo (dia) / Lunala (noite)**: trilho com céu dourado ou céu estrelado, knob com o artwork do lendário, efeito de eclipse e crossfade da página; padrão escuro, salvo localmente.
 - **Player "Now Playing"** com 12 trilhas de batalha: cada faixa tem como capa o Pokémon do tema (Cynthia → Garchomp, Rayquaza, Giratina, Red → Pikachu…), disco girando com anel de progresso na cor do tipo, equalizador, fila de reprodução com capas e durações, barra de progresso arrastável, aleatório, mudo/volume, minimizar para um disco e **Media Session** (teclas de mídia e tela de bloqueio mostram capa e título). Três layouts: pílula no desktop/tablet, barra de largura total no celular em pé e versão compacta no celular deitado.
 - Avisos de online/offline; quando offline, Pokémon já visitados continuam abrindo pelo cache.
 - Voltar/avançar do navegador funcionam em todas as telas.
